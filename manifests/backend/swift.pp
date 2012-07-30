@@ -23,6 +23,17 @@ class glance::backend::swift(
   # modeled as its own config define so that any attempts to
   # define multiple backends will fail
   #
+
+  #
+  # without the swift python bindings, glance can't actually store anything to swift.
+  #
+  # This may only be important in a multi-node environment where the swiftproxy isn't
+  # the same as the control node.
+  #
+  package {"python-swift":
+   ensure => latest,
+  }
+
   glance::api::config { 'backend':
     config => {
       'default_store' => 'swift',
