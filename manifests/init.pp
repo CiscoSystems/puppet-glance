@@ -1,3 +1,9 @@
+#
+# base glacne config.
+#
+# == parameters
+#   * package_ensure - ensure state for package.
+#
 class glance(
   $package_ensure = 'present'
 ) {
@@ -14,6 +20,5 @@ class glance(
   package { 'glance':
     name   => $::glance::params::package_name,
     ensure => $package_ensure,
-    tag    => "openstack",
   }
 }

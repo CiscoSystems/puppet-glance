@@ -4,9 +4,13 @@ describe 'glance::keystone::auth' do
 
   describe 'with defaults' do
 
+    let :params do
+      {:password => 'pass'}
+    end
+
     it { should contain_keystone_user('glance').with(
       :ensure   => 'present',
-      :password => 'glance_password'
+      :password => 'pass'
     )}
 
     it { should contain_keystone_user_role('glance@services').with(
@@ -20,12 +24,11 @@ describe 'glance::keystone::auth' do
       :description => 'Openstack Image Service'
     ) }
 
-    it { should contain_keystone_endpoint('glance').with(
+    it { should contain_keystone_endpoint('RegionOne/glance').with(
       :ensure       => 'present',
-      :region       => 'RegionOne',
-      :public_url   => 'http://127.0.0.1:9292/v1',
-      :admin_url    => 'http://127.0.0.1:9292/v1',
-      :internal_url => 'http://127.0.0.1:9292/v1'
+      :public_url   => 'http://127.0.0.1:9292',
+      :admin_url    => 'http://127.0.0.1:9292',
+      :internal_url => 'http://127.0.0.1:9292'
     )}
 
   end
@@ -62,6 +65,7 @@ describe 'glance::keystone::auth' do
 
     let :params do
       {
+        :password         => 'pass',
         :public_address   => '10.0.0.1',
         :admin_address    => '10.0.0.2',
         :internal_address => '10.0.0.3',
@@ -70,12 +74,11 @@ describe 'glance::keystone::auth' do
       }
     end
 
-    it { should contain_keystone_endpoint('glance').with(
+    it { should contain_keystone_endpoint('RegionTwo/glance').with(
       :ensure       => 'present',
-      :region       => 'RegionTwo',
-      :public_url   => 'http://10.0.0.1:9393/v1',
-      :admin_url    => 'http://10.0.0.2:9393/v1',
-      :internal_url => 'http://10.0.0.3:9393/v1'
+      :public_url   => 'http://10.0.0.1:9393',
+      :admin_url    => 'http://10.0.0.2:9393',
+      :internal_url => 'http://10.0.0.3:9393'
     )}
 
   end
@@ -85,11 +88,11 @@ describe 'glance::keystone::auth' do
     let :params do
       {
         :configure_endpoint => false,
+        :password         => 'pass',
       }
     end
-  
+
     it { should_not contain_keystone_endpoint('glance') }
-      
   end
 
 end
