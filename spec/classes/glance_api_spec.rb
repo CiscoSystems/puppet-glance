@@ -11,8 +11,8 @@ describe 'glance::api' do
 
   let :default_params do
     {
-      :verbose           => 'False',
-      :debug             => 'False',
+      :verbose           => false,
+      :debug             => false,
       :bind_host         => '0.0.0.0',
       :bind_port         => '9292',
       :registry_host     => '0.0.0.0',
@@ -35,8 +35,8 @@ describe 'glance::api' do
 
   [{:keystone_password => 'ChangeMe'},
    {
-      :verbose           => 'true',
-      :debug             => 'true',
+      :verbose           => true,
+      :debug             => true,
       :bind_host         => '127.0.0.1',
       :bind_port         => '9222',
       :registry_host     => '127.0.0.1',
@@ -72,8 +72,8 @@ describe 'glance::api' do
       it { should contain_service('glance-api').with(
         'ensure'     => param_hash[:enabled] ? 'running': 'stopped',
         'enable'     => param_hash[:enabled],
-        'hasstatus'  => 'true',
-        'hasrestart' => 'true'
+        'hasstatus'  => true,
+        'hasrestart' => true
       ) }
 
       it 'should lay down default api config' do
@@ -129,4 +129,16 @@ describe 'glance::api' do
       end
     end
   end
+
+  describe 'with overridden pipeline' do
+    let :params do
+      {
+        :keystone_password => 'ChangeMe',
+        :pipeline           => 'keystone',
+      }
+    end
+
+    it { should contain_glance_api_config('paste_deploy/flavor').with_value('keystone') }
+  end
+
 end
