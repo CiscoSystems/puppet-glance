@@ -37,8 +37,8 @@
 #
 class glance::api(
   $keystone_password,
-  $verbose           = 'False',
-  $debug             = 'False',
+  $verbose           = false,
+  $debug             = false,
   $bind_host         = '0.0.0.0',
   $bind_port         = '9292',
   $backlog           = '4096',
@@ -50,6 +50,7 @@ class glance::api(
   $auth_host         = '127.0.0.1',
   $auth_port         = '35357',
   $auth_protocol     = 'http',
+  $pipeline          = 'keystone+cachemanagement',
   $keystone_tenant   = 'admin',
   $keystone_user     = 'admin',
   $enabled           = true,
@@ -136,7 +137,7 @@ class glance::api(
   # keystone config
   if $auth_type == 'keystone' {
     glance_api_config {
-      'paste_deploy/flavor':                  value => 'keystone+cachemanagement';
+      'paste_deploy/flavor':                  value => $pipeline;
       'keystone_authtoken/admin_tenant_name': value => $keystone_tenant;
       'keystone_authtoken/admin_user':        value => $keystone_user;
       'keystone_authtoken/admin_password':    value => $keystone_password;
