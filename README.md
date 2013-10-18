@@ -43,7 +43,7 @@ To utilize the glance module's functionality you will need to declare multiple r
 
 ```puppet
 class { 'glance::api':
-  verbose           => 'True',
+  verbose           => true,
   keystone_tenant   => 'services',
   keystone_user     => 'glance',
   keystone_password => '12345',
@@ -51,7 +51,7 @@ class { 'glance::api':
 }
 
 class { 'glance::registry':
-  verbose           => 'True',
+  verbose           => true,
   keystone_tenant   => 'services',
   keystone_user     => 'glance',
   keystone_password => '12345',
@@ -83,8 +83,9 @@ class { 'glance::db::mysql':
 ```puppet
 class { 'glance::keystone::auth':
   password         => '12345'
+  email            => 'glance@example.com',
   public_address   => '172.17.0.3',
-  admin_address    => 'admin@example.com',
+  admin_address    => '172.17.0.3',
   internal_address => '172.17.1.3',
   region           => 'example-west-1',
 }
@@ -116,6 +117,15 @@ Contributors
 
 Release Notes
 -------------
+
+**2.2.0**
+
+* Added syslog support.
+* Added support for iso disk format.
+* Fixed bug to allow support for rdb options in glance-api.conf.
+* Fixed bug for rabbitmq options in notify::rabbitmq.
+* Removed non-implemented glance::scrubber class.
+* Various lint and bug fixes.
 
 **2.1.0**
 
