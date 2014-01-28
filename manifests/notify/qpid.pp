@@ -6,7 +6,6 @@ class glance::notify::qpid(
   $qpid_username = 'guest',
   $qpid_hostname = 'localhost',
   $qpid_port     = '5672',
-  $qpid_protocol = 'tcp'
 ) inherits glance::api {
 
   glance_api_config {
